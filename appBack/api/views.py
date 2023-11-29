@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from fpdf import FPDF
-from datetime import datetime
+from datetime import datetime, timedelta
 
 font_path = "D:\\Github\\foodcom\\foodcom_backend\\telegram-bot\\myfile.ttf"
 directory_path = "D:\\Github\\foodcom\\foodcom_backend\\telegram-bot\\docs"
@@ -184,7 +184,7 @@ def process_data(request, ticket_number):
             customer.people_count = people_count
             event_date = data['event_date']
             event_time = data['event_time']
-            #customer.event_date = (datetime.strptime(event_date, "%Y-%m-%dT%H:%M:%S.%fZ") + timedelta(hours=int(event_time.split(":")[0]), minutes=int(event_time.split(":")[1]))).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+            customer.event_date = (datetime.strptime(event_date, "%Y-%m-%dT%H:%M:%S.%fZ").replace(hour=0, minute=0) + timedelta(hours=int(event_time.split(":")[0]), minutes=int(event_time.split(":")[1]))).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             customer.meal_cost = data['meal_cost']
             customer.date_registered = datetime.now()
             customer.tool.set(numeric_tool)
