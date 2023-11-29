@@ -12,8 +12,8 @@ from django.views.decorators.csrf import csrf_exempt
 from fpdf import FPDF
 from datetime import datetime
 
-font_path = "/Users/abror/Documents/foodcom/foodcom_backend/telegram-bot/NanumGothic.ttf"
-directory_path = "/Users/abror/Documents/foodcom/foodcom_backend/telegram-bot/docs"
+font_path = "D:\\Github\\foodcom\\foodcom_backend\\telegram-bot\\myfile.ttf"
+directory_path = "D:\\Github\\foodcom\\foodcom_backend\\telegram-bot\\docs"
 
 event_types = (
     ('wedding', '가족 개인행사'),
@@ -182,7 +182,9 @@ def process_data(request, ticket_number):
             else:
                 customer.custom_event_place = data['event_place']
             customer.people_count = people_count
-            customer.event_date = data['event_date']
+            event_date = data['event_date']
+            event_time = data['event_time']
+            #customer.event_date = (datetime.strptime(event_date, "%Y-%m-%dT%H:%M:%S.%fZ") + timedelta(hours=int(event_time.split(":")[0]), minutes=int(event_time.split(":")[1]))).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             customer.meal_cost = data['meal_cost']
             customer.date_registered = datetime.now()
             customer.tool.set(numeric_tool)
@@ -194,6 +196,7 @@ def process_data(request, ticket_number):
                 print("Customer saved")
             except Exception as e:
                 message += str(e) + "\n"
+                print("Customer could not be created")
 
             response_data = {
                 'message' : message
