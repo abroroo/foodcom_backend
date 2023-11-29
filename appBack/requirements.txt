@@ -1,0 +1,8 @@
+fpdf
+djangorestframework
+django-cors-headers
+python-telegram-bot
+django-multiselectfield
+telebot
+tabulate
+schedule
