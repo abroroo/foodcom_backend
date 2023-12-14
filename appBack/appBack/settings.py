@@ -24,11 +24,13 @@ SECRET_KEY = 'django-insecure-x*jb=osg^q$w0=%a6_1_1lsa73^37n!hzw+9!5(jrz_b7b0&!=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'food-c.co.kr', 'xn--hy1bw80c81d.com']
 
 # specify the url of the frontend application
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'https://food-c.co.kr',
+    'https://xn--hy1bw80c81d.com',
 ]
 
 # Application definition

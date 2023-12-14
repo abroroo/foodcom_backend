@@ -1,11 +1,8 @@
-from django.shortcuts import render, redirect
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse
 from . import models
-from rest_framework import serializers
 import random, json
-from django.forms.models import model_to_dict
 from rest_framework.decorators import api_view
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.response import Response
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -87,7 +84,7 @@ def generatePDF(request, ticket_number):
 
     pdf.set_xy(20, y)
 
-    tool_data = ", ".join(k.name for k in data.tool.all())
+    tool_data = data.tool
 
     event = ""
     for event_type in event_types:
@@ -100,6 +97,15 @@ def generatePDF(request, ticket_number):
 
     if data.event_type == None:
         data.event_type = ""
+
+    if data.custom_tool == None:
+        data.custom_tool = ""
+
+    if data.custom_event_place == None:
+        data.custom_event_place = ""
+
+    if data.custom_event_type == None:
+        data.custom_event_type = ""
 
     pdf.multi_cell(border_width, 10,
                                       f"고객 이름: {data.name}\n\n"
