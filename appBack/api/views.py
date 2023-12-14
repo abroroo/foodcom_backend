@@ -149,19 +149,13 @@ def process_data(request, ticket_number):
             message = ""
 
             tool = data['tool']
-            custom_tool = None  # Initialize the custom_tool variable
             numeric_tool = []
 
             for value in tool:
-                if value.isnumeric():
-                    numeric_tool.append(int(value))
-                elif isinstance(value, str):
-                    custom_tool = value
-                    message += "Custom tool : " + custom_tool + "\n"
+                numeric_tool.append(int(value))
 
             people_count = data['people_count']
 
-            #convert people_count to integer
             if isinstance(people_count, str):
                 people_count = int(people_count)
         
@@ -187,8 +181,8 @@ def process_data(request, ticket_number):
             customer.event_date = (datetime.strptime(event_date, "%Y-%m-%dT%H:%M:%S.%fZ").replace(hour=0, minute=0) + timedelta(hours=int(event_time.split(":")[0]), minutes=int(event_time.split(":")[1]))).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             customer.meal_cost = data['meal_cost']
             customer.date_registered = datetime.now()
-            customer.tool.set(numeric_tool)
-            customer.custom_tool = custom_tool
+            customer.tool = numeric_tool
+            customer.custom_tool = data['customTool']
             customer.ticket_number = ticket_number
 
             try:
@@ -196,62 +190,12 @@ def process_data(request, ticket_number):
                 print("Customer saved")
             except Exception as e:
                 message += str(e) + "\n"
-                print("Customer could not be created")
+                print(e)
 
             response_data = {
                 'message' : message
             }
             return JsonResponse(response_data)
         except Exception as e:
+            print(e)
             return JsonResponse({'error' : str(e)})
-
-# class MenuDetail(APIView):
-#     def get_object(self, ticket_number):
-#         try:
-#             customer = models.Customer.objects.get(ticket_number=ticket_number)
-#             return models.Menu.objects.get(customer=customer)
-#         except models.Menu.DoesNotExist:
-#             raise Http404
-        
-#     def get(self, request, ticket_number, format=None):
-#         menu = self.get_object(ticket_number)
-#         serializer = models.MenuSerializer(menu)
-#         mydata = serializer.data
-
-#         custom_menu_index = mydata['custom_menu']
-#         custom_menu = []
-#         for k in custom_menu_index:
-#             food_object = models.Food.objects.get(id=k)
-#             serialized_food_object = models.FoodSerializer(food_object)
-#             custom_menu.append(serialized_food_object.data)
-        
-#         mydata['custom_menu'] = custom_menu
-
-#         food_set_index = mydata['food_set']
-#         food_set_object = models.Set.objects.get(id=food_set_index)
-#         serialized_food_set = models.SetSerializer(food_set_object)
-#         mydata['food_set'] = serialized_food_set.data
-
-#         return Response(mydata)
-#     def put(self, request, ticket_number, format=None):
-#         customer = models.Customer.objects.get(ticket_number=ticket_number)
-#         menu = models.Menu.objects.get(customer=customer)
-#         serializer = models.MenuSerializer(menu, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         print(serializer.errors)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-    # pdf.multi_cell(border_width, 10,
-    #                                   f"고객 이름: {data.name}\n\n"
-    #                                   f"고객 전화 번호: {data.phone_number}\n\n"
-    #                                   f"이벤트 유형: {event_types[int(data.event_type)-1][1]}\n\n"
-    #                                   f"행사 장소: {event_places[int(data.event_place)-1][1]}\n\n"
-    #                                   f"개최 날짜: {data.event_date}\n\n"
-    #                                   f"주소: {data.address}\n\n"
-    #                                   f"고객 등록 날짜: {data.date_registered}\n\n"
-    #                                   f"티켓 번호: {data.ticket_number}\n\n"
-    #                                   f"추가: {tool_data}",
-    #                align='C')
