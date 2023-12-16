@@ -84,7 +84,7 @@ def generatePDF(request, ticket_number):
 
     pdf.set_xy(20, y)
 
-    tool_data = data.tool
+    tool_data = ", ".join(k.name for k in data.tool.all())
 
     event = ""
     for event_type in event_types:
