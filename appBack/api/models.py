@@ -24,20 +24,20 @@ event_places = (
     ('미정', '미정')
 )
 
-tools = ((1, "사각 테이블"),
-    (2, "원탁테이블"),
-    (3, "스텐딩 테이블"),
-    (4, "의자"),
-    (5, "의자커버"),
-    (6, "자바라 텐트 (3m * 6m)"),
-    (7, "몽골텐트 (5m * 5m)"),
-    (8, "단상"),
-    (9, "기본음향"),
-    (10, "무대"),
-    (11, "진행"),
-    (12, "마스터 밴드"),
-    (13, "플래카드"),
-    (14, "필요없는"))
+# tools = ((1, "사각 테이블"),
+#     (2, "원탁테이블"),
+#     (3, "스텐딩 테이블"),
+#     (4, "의자"),
+#     (5, "의자커버"),
+#     (6, "자바라 텐트 (3m * 6m)"),
+#     (7, "몽골텐트 (5m * 5m)"),
+#     (8, "단상"),
+#     (9, "기본음향"),
+#     (10, "무대"),
+#     (11, "진행"),
+#     (12, "마스터 밴드"),
+#     (13, "플래카드"),
+#     (14, "필요없는"))
 
 class Tool(models.Model):
     name = models.CharField(max_length=200, blank=True, null=True)
@@ -57,7 +57,7 @@ class Customer(models.Model):
     event_date = models.DateTimeField(blank=True, null=True)
     address = models.CharField(max_length=200, blank=True, null=True)
     meal_cost = models.IntegerField(blank=True, null=True)
-    tool = MultiSelectField(max_length=200, choices=tools, blank=True, null=True)
+    tool = models.ManyToManyField(Tool, blank=True, null=True)    
     custom_tool = models.CharField(max_length=200, blank=True, null=True)
 
     date_registered = models.DateTimeField(auto_now_add=True)
@@ -67,6 +67,7 @@ class Customer(models.Model):
         return str(self.ticket_number)
 
 class CustomerSerializer(serializers.ModelSerializer):
+    tool = serializers.PrimaryKeyRelatedField(queryset=Tool.objects.all(), many=True)
     class Meta:
         model = Customer
         fields = '__all__'

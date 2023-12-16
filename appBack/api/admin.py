@@ -8,4 +8,7 @@ class CustomerAdmin(admin.ModelAdmin):
 class ToolAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
 
+
+
 admin.site.register(models.Customer, CustomerAdmin)
+admin.site.register(models.Tool, ToolAdmin)

@@ -187,7 +187,7 @@ def process_data(request, ticket_number):
             customer.event_date = (datetime.strptime(event_date, "%Y-%m-%dT%H:%M:%S.%fZ").replace(hour=0, minute=0) + timedelta(hours=int(event_time.split(":")[0]), minutes=int(event_time.split(":")[1]))).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             customer.meal_cost = data['meal_cost']
             customer.date_registered = datetime.now()
-            customer.tool = numeric_tool
+            customer.tool.set(numeric_tool)
             customer.custom_tool = data['customTool']
             customer.ticket_number = ticket_number
 

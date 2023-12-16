@@ -22,5 +22,5 @@ data = {
 
 {"address":"전북 전주시","tool":["11","3","4","12"],"customTool":"","event_type":"festival","date_rigistered":"2023-12-14T19:57:01.513Z","event_date":"2023-12-26T15:00:00.000Z","event_time":"00:00","meal_cost":55000,"event_place":"연회장","name":"ㅇㅀㄴㅇㅀ","phone_number":32423423433,"message":"dfasfds","people_count":"410"}
 
-response = requests.post(f"http://127.0.0.1:8000/api/process_data/13526773", json=data)
+response = requests.post(f"http://127.0.0.1:8000/api/process_data/86137611", json=data)
 print(response.text)
