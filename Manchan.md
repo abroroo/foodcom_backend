@@ -1,3 +1,8 @@
+login to the server
+```bash
+ssh -i foodcom.pem ubuntu@3.34.76.235
+```
+
 Installing node js
 ```bash
 curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
